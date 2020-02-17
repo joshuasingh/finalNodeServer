@@ -2,11 +2,12 @@
 const aws = require("aws-sdk");
 module.exports.multer = require("multer");
 module.exports.multerS3 = require("multer-s3");
+var config = require("../security/config.json");
 
 aws.config.update({
-  secretAccessKey: "dsYGxu5lnTNYrXgLTN0PCkxXIuk2DC9Xj9fpaDn9",
-  accessKeyId: "AKIAICJB367TKQTZBRNQ",
-  region: "us-east-2"
+  secretAccessKey: config.awsKey.AWSSecretKey,
+  accessKeyId: config.awsKey.AWSAccessKeyId,
+  region: "ap-south-1"
 });
 
 module.exports.s3 = new aws.S3();

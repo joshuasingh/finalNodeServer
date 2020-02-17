@@ -9,7 +9,7 @@ const { setMongoUrl1 } = require("../AdmingetImagesPerCat/setMongoUrl");
 var upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "seriouslyagain",
+    bucket: "picttbucket1",
     acl: "public-read",
     metadata: function(req, file, cb) {
       cb(null, { fieldName: "TESTING_METADATA" });
@@ -57,7 +57,7 @@ module.exports.getSingleImages = (req, res) => {
 var upload1 = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "seriouslyagain",
+    bucket: "picttbucket1",
     acl: "public-read",
     metadata: function(req, file, cb) {
       cb(null, { fieldName: "TESTING_METADATA" });

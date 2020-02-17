@@ -27,6 +27,7 @@ const MongoClient = require("mongodb").MongoClient;
 app.use(bodyParser.json({ limit: "10mb", extended: false }));
 app.use(bodyParser.urlencoded({ limit: "100mb", extended: true }));
 var { getAll } = require("./AdminMenuItems/getAllUpdatedData");
+var {getAllSocket}=require("./AdminMenuItems/getAllUpdatedData");
 
 //All router defined here
 app.use("/adminSetting", Testing);
@@ -106,9 +107,9 @@ const jwt = require("jsonwebtoken");
 //const receive = multer();
 
 aws.config.update({
-  secretAccessKey: "dsYGxu5lnTNYrXgLTN0PCkxXIuk2DC9Xj9fpaDn9",
-  accessKeyId: "AKIAICJB367TKQTZBRNQ",
-  region: "us-east-2"
+  secretAccessKey: config.awsKey.AWSSecretKey,
+  accessKeyId: config.awsKey.AWSAccessKeyId,
+  region: "ap-south-1"
 });
 
 const s3 = new aws.S3();
@@ -399,7 +400,7 @@ const removeImgurl = async (id, url, req1, res1) => {
 const removeImage = async (url, req1, res1) => {
   console.log("removing from aws bucket", url);
   var params = {
-    Bucket: "seriouslyagain",
+    Bucket: "picttbucket1",
     Delete: {
       Objects: url,
       Quiet: false
@@ -412,7 +413,7 @@ const removeImage = async (url, req1, res1) => {
     } else {
       console.log("done");
       // res1.json({ status: "done" }).status(200);
-      getAll(req1, res1);
+      getAllSocket(req1, res1,client);
     }
   });
 };
@@ -441,19 +442,35 @@ app.post("/mainImages/removeUrlUpload", (req, res) => {
 
 //uploading the image for main image slider in aws bucket
 app.post("/mainImageslider/single", (req, res) => {
-  console.log("called the mainImage ");
-  broadxcast("i have focused everything here");
-  res.send("work done").status(200);
+  console.log("called the mainImage ",);
+  // broadxcast("i have focused everything here");
+  // res.send("work done").status(200);
 
-  // checkHeaderAuth(
-  //   async userrr => {
-  //     // putSingleSliderImage(req, res);
-  //     putSingleSliderImage1(req, res, client);
-  //   },
-  //   req,
-  //   res
-  // );
+  checkHeaderAuth(
+    async userrr => {
+       //putSingleSliderImage(req, res);
+      putSingleSliderImage1(req, res, client);
+    },
+    req,
+    res
+  );
 });
+
+
+app.post("/mainImageslider/notSingle", (req, res) => {
+  
+  console.log("in main images fetch not single")
+ 
+  checkHeaderAuth(
+   async userrr => {
+     putMultipleImagesInMain(req, res,client);
+   },
+   req,
+   res
+ );
+});
+
+
 
 var upload1 = multer({ dest: "uploads/" });
 
@@ -490,15 +507,7 @@ app.post("/mainImages/urlUpload", (req, res) => {
   //res.json({ status: "done" }).status(200);
 });
 
-app.post("/mainImageslider/notSingle", (req, res) => {
-  checkHeaderAuth(
-    async userrr => {
-      putMultipleImagesInMain(req, res);
-    },
-    req,
-    res
-  );
-});
+
 
 app.get("/getImages", async (req, res) => {
   try {

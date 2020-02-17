@@ -18,13 +18,15 @@ module.exports.getAll = (req, res) => {
 
 // Broadcast to all clients
 function broadcast(clients, result) {
-  console.log("the total number of client", clients.length);
-  // iterate through each client in clients object
-  for (var client in clients) {
-    // send the message to that client
-    clients[client].write(JSON.stringify(result));
+  
+  console.log("the total number of client", Object.keys(clients).length);
+  
+
+  for (var i = 0; i < Object.keys(clients).length; i++) {
+    //if(Object.keys(client)[i]!==soc.id)
+    Object.values(clients)[i].emit("chat", result);
   }
-}
+  }
 
 //this is to broadcast the message to every connected client
 

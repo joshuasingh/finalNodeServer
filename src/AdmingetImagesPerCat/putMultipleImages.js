@@ -8,7 +8,7 @@ const { setMongoUrl } = require("../AdmingetImagesPerCat/setMongoUrl");
 var upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "seriouslyagain",
+    bucket: "picttbucket1",
     acl: "public-read",
     metadata: function(req, file, cb) {
       cb(null, { fieldName: "TESTING_METADATA" });
@@ -22,7 +22,7 @@ var upload = multer({
 var upload1 = multer({
   storage: multerS3({
     s3: s3,
-    bucket: "seriouslyagain",
+    bucket: "picttbucket1",
     acl: "public-read",
     metadata: function(req, file, cb) {
       cb(null, { fieldName: "TESTING_METADATA" });
@@ -68,7 +68,7 @@ module.exports.putMultipleImages = (req, res) => {
   });
 };
 
-module.exports.putMultipleImagesInMain = (req, res) => {
+module.exports.putMultipleImagesInMain = (req, res,client) => {
   //uploading the image for main image slider in aws bucket
   console.log("called here in multiple images in main image slider");
 
@@ -91,7 +91,7 @@ module.exports.putMultipleImagesInMain = (req, res) => {
           allUrl.push(temp);
         });
         console.log(allUrl, req.body.image);
-        setMongoUrl(allUrl, req.body.image, res);
+        setMongoUrl(allUrl, req.body.image, res,client);
       }
     } catch (err) {
       console.log("in catch");

@@ -21,7 +21,7 @@ const withDB = async (operations, res) => {
   }
 };
 
-module.exports.setMongoUrl = async (imageUrl1, id1, res1) => {
+module.exports.setMongoUrl = async (imageUrl1, id1, res1,client) => {
   console.log("called updating");
 
   // var temp = "Mickey";
@@ -38,7 +38,7 @@ module.exports.setMongoUrl = async (imageUrl1, id1, res1) => {
         } else {
           console.log("document updated", obj);
           //gettingUpdate(id1, res1);
-          getAll(null, res1);
+          getAllSocket(null, res1,client);
         }
       });
     }, res1);
