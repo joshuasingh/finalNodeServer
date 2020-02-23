@@ -62,8 +62,8 @@ io.on("connection", function(socket) {
   });
 });
 
-server.listen(process.env.PORT || 8081, () => {
-  console.log("server is listening on port 8081");
+server.listen(process.env.PORT || 4000, () => {
+  console.log("server is listening on port 4000");
 });
 
 // var port = 8081;
