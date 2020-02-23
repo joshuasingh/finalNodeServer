@@ -50,6 +50,7 @@ io.on("connection", function(socket) {
   console.log("a user connected");
   client[socket.id] = socket;
   console.log("no of client connected", Object.keys(client).length);
+  
 
   socket.on("chatting", function(msg) {
     console.log("message: " + msg);
